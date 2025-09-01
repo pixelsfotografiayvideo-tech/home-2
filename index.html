@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- EDITAR: Cambia el título y la descripción del sitio -->
+    <title>Hepta Arquitectura | Estudio de Arquitectura</title>
+    <meta name="description" content="Nos apasiona crear espacios armoniosos, innovadores y funcionales.">
+
+    <!-- Fuentes de Google (Poppins) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Librería de Iconos (Font Awesome) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        /* --- ESTILOS GENERALES Y VARIABLES --- */
+        /* EDITAR: Puedes cambiar los colores principales de la web aquí */
+        :root {
+            --color-primario: #1a1a1a; /* Negro para texto y fondos oscuros */
+            --color-secundario: #007bff; /* Un azul para destacar, puedes cambiarlo */
+            --color-fondo: #ffffff;    /* Blanco */
+            --color-gris: #888888;     /* Gris para subtítulos o texto secundario */
+            --fuente-principal: 'Poppins', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            box-sizing: border-box;
+        }
+
+        *, *:before, *:after {
+            box-sizing: inherit;
+        }
+
+        body {
+            margin: 0;
+            font-family: var(--fuente-principal);
+            background-color: var(--color-fondo);
+            color: var(--color-primario);
+            font-size: 16px;
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+        h1, h2, h3 {
+            margin-top: 0;
+            font-weight: 600;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 60px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* --- HEADER Y NAVEGACIÓN --- */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background-color: transparent;
+            padding: 20px 0;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .header.scrolled {
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-decoration: none;
+            color: var(--color-primario);
+            letter-spacing: 1px;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-item {
+            margin-left: 30px;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--color-primario);
+            font-weight: 500;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            position: relative;
+            padding-bottom: 5px;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--color-primario);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+        }
+
+        .bar {
+            display: block;
+            width: 25px;
+            height: 3px;
+            margin: 5px auto;
+            background-color: var(--color-primario);
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* --- SECCIÓN HERO (INICIO) CON TEXTO ANIMADO --- */
+        #inicio {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            padding: 0 20px;
+            /* EDITAR: Cambia la URL por la de tu imagen de fondo principal */
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=2874&auto=format&fit=crop') no-repeat center center/cover;
+        }
+
+        .hero-text h1 {
+            font-size: 3.2rem;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+        
+        .hero-text .dynamic-text {
+            color: var(--color-secundario); /* Color para el texto que cambia */
+        }
+
+        .cursor {
+            display: inline-block;
+            background-color: white;
+            width: 4px;
+            margin-left: 8px;
+            animation: blink 1s infinite;
+            position: relative;
+            top: 4px;
+        }
+
+        @keyframes blink {
+            0%, 100% { background-color: white; }
+            50% { background-color: transparent; }
+        }
+        
+        /* --- SECCIÓN PROYECTOS --- */
+        .proyectos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .proyecto-item {
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .proyecto-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .proyecto-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .proyecto-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.8));
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .proyecto-item:hover .proyecto-overlay {
+            opacity: 1;
+        }
+
+        .proyecto-overlay h3 {
+            margin: 0;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .proyecto-overlay p {
+            margin: 5px 0 0 0;
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.8);
+        }
+
+        /* --- SECCIÓN NOSOTROS --- */
+        #nosotros .container {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+        }
+
+        .nosotros-texto {
+            flex: 1;
+        }
+        
+        .nosotros-texto h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+        
+        .nosotros-texto p {
+            color: var(--color-gris);
+        }
+
+        .nosotros-imagen {
+            flex: 1;
+        }
+
+        .nosotros-imagen img {
+            width: 100%;
+            height: auto;
+            max-height: 400px;
+            object-fit: cover;
+        }
+        
+        /* --- SECCIÓN CONTACTO --- */
+        #contacto {
+            background-color: #f9f9f9;
+        }
+        
+        .contacto-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+        
+        .contacto-info, .contacto-mapa {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .contacto-info h3 {
+            margin-bottom: 30px;
+        }
+        
+        .info-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .info-item i {
+            font-size: 1.2rem;
+            color: var(--color-primario);
+            margin-right: 20px;
+            width: 25px;
+            text-align: center;
+        }
+
+        .info-item a, .info-item span {
+            text-decoration: none;
+            color: var(--color-gris);
+            transition: color 0.3s ease;
+        }
+        
+        .info-item a:hover {
+            color: var(--color-primario);
+        }
+
+        .social-links a {
+            color: var(--color-primario);
+            font-size: 1.5rem;
+            margin-right: 20px;
+            transition: color 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            color: var(--color-gris);
+        }
+        
+        .contacto-mapa iframe {
+            width: 100%;
+            height: 100%;
+            min-height: 350px;
+            border: 0;
+        }
+        
+        /* --- FOOTER --- */
+        .footer {
+            background-color: var(--color-primario);
+            color: var(--color-fondo);
+            text-align: center;
+            padding: 30px 20px;
+        }
+        
+        .footer p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: var(--color-gris);
+        }
+
+        /* --- MODAL PARA PROYECTOS --- */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1001;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.9);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 900px;
+            text-align: center;
+            color: #ccc;
+        }
+
+        .modal-content img {
+            width: 100%;
+            height: auto;
+        }
+        
+        #modal-caption {
+            margin-top: 15px;
+            font-size: 1.2rem;
+        }
+        
+        #modal-description {
+            font-size: 1rem;
+            color: var(--color-gris);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 25px;
+            right: 45px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        
+        /* --- RESPONSIVE DESIGN --- */
+        @media (max-width: 768px) {
+            .nav-menu {
+                position: fixed;
+                left: -100%;
+                top: 70px;
+                flex-direction: column;
+                background-color: var(--color-fondo);
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: 0 10px 27px rgba(0,0,0,0.05);
+            }
+
+            .nav-menu.active { left: 0; }
+            .nav-item { margin: 1.5rem 0; }
+            .hamburger { display: block; }
+            .hamburger.active .bar:nth-child(2) { opacity: 0; }
+            .hamburger.active .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+            .hamburger.active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+            
+            .hero-text h1 { font-size: 2.2rem; }
+            #nosotros .container { flex-direction: column; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- ======================= HEADER ======================= -->
+    <header class="header">
+        <div class="container navbar">
+            <a href="#inicio" class="nav-logo">HEPTA</a>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="#inicio" class="nav-link">Inicio</a></li>
+                <li class="nav-item"><a href="#proyectos" class="nav-link">Proyectos</a></li>
+                <li class="nav-item"><a href="#nosotros" class="nav-link">Nosotros</a></li>
+                <li class="nav-item"><a href="#contacto" class="nav-link">Contacto</a></li>
+            </ul>
+            <div class="hamburger"><span class="bar"></span><span class="bar"></span><span class="bar"></span></div>
+        </div>
+    </header>
+
+    <main>
+        <!-- ======================= SECCIÓN INICIO ======================= -->
+        <section id="inicio">
+            <div class="hero-text">
+                <h1>
+                    Nos apasiona crear espacios
+                    <br>
+                    <span id="typing-text" class="dynamic-text"></span><span class="cursor"></span>
+                </h1>
+            </div>
+        </section>
+
+        <!-- ======================= SECCIÓN PROYECTOS ======================= -->
+        <section id="proyectos">
+            <div class="container">
+                <h2>Proyectos</h2>
+                <div class="proyectos-grid">
+                    <!-- INICIO PROYECTO 1 -->
+                    <div class="proyecto-item" data-img-src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2940&auto=format&fit=crop" data-title="Casa Moderna" data-category="Vivienda Unifamiliar" data-description="Un diseño que integra la naturaleza con espacios abiertos y luminosos.">
+                        <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2940&auto=format&fit=crop" alt="Proyecto 1">
+                        <div class="proyecto-overlay"><h3>Casa Moderna</h3><p>Vivienda Unifamiliar</p></div>
+                    </div>
+                    <!-- INICIO PROYECTO 2 -->
+                    <div class="proyecto-item" data-img-src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2940&auto=format&fit=crop" data-title="Villa Costera" data-category="Vivienda Unifamiliar" data-description="Lujo y confort con vistas al mar. Materiales locales y diseño sostenible.">
+                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2940&auto=format&fit=crop" alt="Proyecto 2">
+                        <div class="proyecto-overlay"><h3>Villa Costera</h3><p>Vivienda Unifamiliar</p></div>
+                    </div>
+                    <!-- INICIO PROYECTO 3 -->
+                    <div class="proyecto-item" data-img-src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=2880&auto=format&fit=crop" data-title="Edificio de Apartamentos" data-category="Vivienda Colectiva" data-description="Un complejo residencial que fomenta la comunidad y el bienestar en el corazón de la ciudad.">
+                        <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=2880&auto=format&fit=crop" alt="Proyecto 3">
+                        <div class="proyecto-overlay"><h3>Edificio de Apartamentos</h3><p>Vivienda Colectiva</p></div>
+                    </div>
+                    <!-- INICIO PROYECTO 4 -->
+                    <div class="proyecto-item" data-img-src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?q=80&w=2940&auto=format&fit=crop" data-title="Oficinas Corporativas" data-category="Comercial" data-description="Espacios de trabajo flexibles y colaborativos diseñados para la productividad moderna.">
+                        <img src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?q=80&w=2940&auto=format&fit=crop" alt="Proyecto 4">
+                        <div class="proyecto-overlay"><h3>Oficinas Corporativas</h3><p>Comercial</p></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- ======================= SECCIÓN NOSOTROS ======================= -->
+        <section id="nosotros">
+            <div class="container">
+                <div class="nosotros-texto">
+                    <h2>Nosotros</h2>
+                    <h3>Somos un equipo multidisciplinar que vive y siente la arquitectura.</h3>
+                    <p>En Hepta Arquitectura, creemos que cada proyecto es una oportunidad para crear espacios que inspiran y mejoran la vida de las personas. Nuestro enfoque se basa en la colaboración, la innovación y un profundo respeto por el entorno.</p>
+                    <p>Desde viviendas unifamiliares hasta complejos comerciales, abordamos cada desafío con la misma pasión y dedicación, buscando siempre la excelencia en el diseño y la ejecución.</p>
+                </div>
+                <div class="nosotros-imagen">
+                    <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=3048&auto=format&fit=crop" alt="Equipo de Hepta Arquitectura">
+                </div>
+            </div>
+        </section>
+        
+        <!-- ======================= SECCIÓN CONTACTO ======================= -->
+        <section id="contacto">
+            <div class="container">
+                <h2>Contacto</h2>
+                <div class="contacto-wrapper">
+                    <div class="contacto-info">
+                        <h3>Ponte en contacto</h3>
+                        <div class="info-item"><i class="fas fa-map-marker-alt"></i><span>Calle Falsa 123, Springfield, Argentina</span></div>
+                        <div class="info-item"><i class="fas fa-envelope"></i><a href="mailto:contacto@hepta.com">contacto@hepta.com</a></div>
+                        <div class="info-item"><i class="fas fa-phone"></i><a href="tel:+5491112345678">+54 (911) 1234-5678</a></div>
+                        <div class="social-links" style="margin-top: 40px;">
+                            <a href="https://instagram.com" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                            <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="https://facebook.com" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        </div>
+                    </div>
+                    <div class="contacto-mapa">
+                         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3284.016888186403!2d-58.3841453245424!3d-34.60373445749774!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bccacf141b7313%3A0x49652a65d91ad19!2sObelisco!5e0!3m2!1ses!2sar!4v1700000000000!5m2!1ses!2sar" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ======================= FOOTER ======================= -->
+    <footer class="footer">
+        <div class="container"><p>&copy; 2024 HEPTA Arquitectura. Todos los derechos reservados.</p></div>
+    </footer>
+    
+    <!-- ======================= MODAL PARA PROYECTOS ======================= -->
+    <div id="projectModal" class="modal">
+        <span class="close-modal">&times;</span>
+        <div class="modal-content">
+            <img id="modal-image" src="" alt="Imagen de proyecto ampliada">
+            <h3 id="modal-caption"></h3>
+            <p id="modal-description"></p>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        
+        // --- NAVEGACIÓN MÓVIL (HAMBURGUESA) ---
+        const hamburger = document.querySelector(".hamburger");
+        const navMenu = document.querySelector(".nav-menu");
+        navMenu.addEventListener("click", () => {
+             hamburger.classList.remove("active");
+             navMenu.classList.remove("active");
+        });
+        hamburger.addEventListener("click", () => {
+            hamburger.classList.toggle("active");
+            navMenu.classList.toggle("active");
+        });
+        
+        // --- HEADER CON FONDO AL HACER SCROLL ---
+        const header = document.querySelector(".header");
+        window.addEventListener("scroll", () => { window.scrollY > 50 ? header.classList.add("scrolled") : header.classList.remove("scrolled"); });
+
+        // --- MODAL DE PROYECTOS ---
+        const modal = document.getElementById("projectModal"), modalImg = document.getElementById("modal-image"), modalCaption = document.getElementById("modal-caption"), modalDescription = document.getElementById("modal-description");
+        document.querySelectorAll('.proyecto-item').forEach(item => {
+            item.addEventListener('click', function() {
+                modal.style.display = "flex";
+                modalImg.src = this.dataset.imgSrc;
+                modalCaption.textContent = this.dataset.title;
+                modalDescription.textContent = this.dataset.description;
+            });
+        });
+        document.querySelector(".close-modal").onclick = () => { modal.style.display = "none"; }
+        window.onclick = (event) => { if (event.target == modal) modal.style.display = "none"; }
+
+        // --- ANIMACIÓN DE TEXTO DINÁMICO ---
+        const typingTextSpan = document.querySelector("#typing-text");
+        const cursorSpan = document.querySelector(".cursor");
+        // EDITAR: Cambia las palabras aquí para la animación
+        const words = ["armoniosos.", "innovadores.", "funcionales.", "creativos.", "sostenibles."];
+        const typingDelay = 120;
+        const erasingDelay = 80;
+        const newWordDelay = 2000;
+        let wordIndex = 0;
+        let charIndex = 0;
+
+        function type() {
+            if (charIndex < words[wordIndex].length) {
+                if(!cursorSpan.classList.contains("typing")) cursorSpan.classList.add("typing");
+                typingTextSpan.textContent += words[wordIndex].charAt(charIndex);
+                charIndex++;
+                setTimeout(type, typingDelay);
+            } else {
+                cursorSpan.classList.remove("typing");
+                setTimeout(erase, newWordDelay);
+            }
+        }
+
+        function erase() {
+            if (charIndex > 0) {
+                if(!cursorSpan.classList.contains("typing")) cursorSpan.classList.add("typing");
+                typingTextSpan.textContent = words[wordIndex].substring(0, charIndex - 1);
+                charIndex--;
+                setTimeout(erase, erasingDelay);
+            } else {
+                cursorSpan.classList.remove("typing");
+                wordIndex = (wordIndex + 1) % words.length;
+                setTimeout(type, typingDelay + 500);
+            }
+        }
+        
+        // Inicia la animación cuando el documento esté cargado
+        if(words.length) setTimeout(type, newWordDelay + 250);
+    });
+    </script>
+</body>
+</html>
