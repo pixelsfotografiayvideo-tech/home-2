@@ -572,48 +572,153 @@
         window.onclick = (event) => { if (event.target == modal) modal.style.display = "none"; }
 
         // --- ANIMACIÓN DE TEXTO DINÁMICO ---
-        const typingTextSpan = document.querySelector("#typing-text");
-        const cursorSpan = document.querySelector(".cursor");
-        // EDITAR: Cambia las palabras aquí para la animación
-        const words = ["emociones.", "miradas.", "Momentos irrepetibles.", "que cuentan historias únicas."];
-        const typingDelay = 120;
-        const erasingDelay = 80;
-        const newWordDelay = 2000;
-        let wordIndex = 0;
-        let charIndex = 0;
+        <!-- Contenedor principal para el texto que se escribe automáticamente -->
+<div class="hero-typing-container">
+  <h1 class="hero-title">
+    Nos apasiona crear espacios<br>
+    <span id="typing-text"></span><span class="cursor"></span>
+  </h1>
+</div>
 
-        function type() {
-            if (charIndex < words[wordIndex].length) {
-                if(!cursorSpan.classList.contains("typing")) cursorSpan.classList.add("typing");
-                typingTextSpan.textContent += words[wordIndex].charAt(charIndex);
-                charIndex++;
-                setTimeout(type, typingDelay);
-            } else {
-                cursorSpan.classList.remove("typing");
-                setTimeout(erase, newWordDelay);
-            }
-        }
+<style>
+  /* Estilos para el contenedor principal */
+  .hero-typing-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    text-align: center;
+    /* Estos valores pueden ajustarse según donde lo coloques */
+    min-height: 300px;
+  }
 
-        function erase() {
-            if (charIndex > 0) {
-                if(!cursorSpan.classList.contains("typing")) cursorSpan.classList.add("typing");
-                typingTextSpan.textContent = words[wordIndex].substring(0, charIndex - 1);
-                charIndex--;
-                setTimeout(erase, erasingDelay);
-            } else {
-                cursorSpan.classList.remove("typing");
-                wordIndex = (wordIndex + 1) % words.length;
-                setTimeout(type, typingDelay + 500);
-            }
-        }
-        
-        // Inicia la animación cuando el documento esté cargado
-        if(words.length) setTimeout(type, newWordDelay + 250);
-    });
-    </script>
+  /* Estilos para el título principal */
+  .hero-title {
+    font-family: 'Poppins', sans-serif; /* O la fuente que uses en tu sitio */
+    font-size: 3rem;
+    font-weight: 600;
+    line-height: 1.3;
+    color: #333; /* Ajusta al color que necesites */
+    margin: 0;
+  }
+
+  /* Estilos para el texto que se escribe */
+  #typing-text {
+    color: #007bff; /* Color destacado para las palabras que se escriben */
+    font-weight: 600;
+  }
+
+  /* Estilos para el cursor parpadeante */
+  .cursor {
+    display: inline-block;
+    width: 3px;
+    height: 50px;
+    background-color: #333;
+    margin-left: 5px;
+    animation: blink 1s infinite;
+    vertical-align: middle;
+  }
+
+  /* Animación del parpadeo */
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+  
+  /* Estilos responsivos */
+  @media (max-width: 768px) {
+    .hero-title {
+      font-size: 2.2rem;
+    }
+    
+    .cursor {
+      height: 40px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .hero-title {
+      font-size: 1.8rem;
+    }
+    
+    .cursor {
+      height: 30px;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Elemento donde se mostrará el texto
+    const typingTextElement = document.getElementById('typing-text');
+    const cursorElement = document.querySelector('.cursor');
+    
+    // Array con las palabras que se mostrarán
+    const words = ["cacas.", "pis.", "colucac.", "picaro.", "sostenibles."];
+    
+    // Variables de control
+    let wordIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    let isEnd = false;
+    
+    // Tiempos de espera (en milisegundos)
+    const typingSpeed = 120; // Velocidad de escritura
+    const deletingSpeed = 80; // Velocidad de borrado
+    const wordDelay = 2000; // Tiempo de espera después de escribir una palabra
+    
+    // Función principal que maneja el efecto de escritura
+    function typeEffect() {
+      // La palabra actual del array
+      const currentWord = words[wordIndex];
+      
+      // Determinar si estamos escribiendo o borrando
+      if (isDeleting) {
+        // Eliminar un carácter
+        typingTextElement.textContent = currentWord.substring(0, charIndex - 1);
+        charIndex--;
+      } else {
+        // Añadir un carácter
+        typingTextElement.textContent = currentWord.substring(0, charIndex + 1);
+        charIndex++;
+      }
+      
+      // Si terminamos de escribir la palabra
+      if (!isDeleting && charIndex === currentWord.length) {
+        // Pausa antes de empezar a borrar
+        isEnd = true;
+        isDeleting = true;
+        setTimeout(function() {
+          typeEffect();
+        }, wordDelay);
+        return;
+      } 
+      // Si hemos borrado toda la palabra
+      else if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        // Pasar a la siguiente palabra
+        wordIndex = (wordIndex + 1) % words.length;
+        // Pequeña pausa antes de escribir la nueva palabra
+        setTimeout(function() {
+          typeEffect();
+        }, 500);
+        return;
+      }
+      
+      // Establecer el tiempo para la próxima ejecución
+      const typingTime = isDeleting ? deletingSpeed : typingSpeed;
+      setTimeout(typeEffect, isEnd ? wordDelay : typingTime);
+      isEnd = false;
+    }
+    
+    // Iniciar el efecto de escritura
+    setTimeout(typeEffect, 1000);
+  });
+</script>
 </body>
 
 </html>
+
 
 
 
